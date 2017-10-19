@@ -146,24 +146,22 @@ Read 0.0% of 2985217 rows</code></pre>
 ## If reporting to datatable-help, please rerun and include the output from
 ## verbose=TRUE.</code></pre>
 <pre><code>## 
-Read 6.4% of 2985217 rows
-Read 13.1% of 2985217 rows
-Read 19.4% of 2985217 rows
-Read 25.8% of 2985217 rows
-Read 31.8% of 2985217 rows
-Read 37.5% of 2985217 rows
-Read 43.9% of 2985217 rows
-Read 48.2% of 2985217 rows
-Read 53.9% of 2985217 rows
-Read 60.3% of 2985217 rows
-Read 66.3% of 2985217 rows
+Read 6.7% of 2985217 rows
+Read 13.4% of 2985217 rows
+Read 20.1% of 2985217 rows
+Read 26.5% of 2985217 rows
+Read 33.2% of 2985217 rows
+Read 39.9% of 2985217 rows
+Read 46.2% of 2985217 rows
+Read 52.9% of 2985217 rows
+Read 59.6% of 2985217 rows
+Read 66.0% of 2985217 rows
 Read 72.7% of 2985217 rows
-Read 78.4% of 2985217 rows
-Read 84.1% of 2985217 rows
+Read 79.1% of 2985217 rows
 Read 85.8% of 2985217 rows
-Read 90.8% of 2985217 rows
-Read 95.5% of 2985217 rows
-Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:25</code></pre>
+Read 92.5% of 2985217 rows
+Read 99.2% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:23</code></pre>
 <pre class="r"><code>tr_data_2017 = fread(&quot;properties_2017.csv&quot;)</code></pre>
 <pre><code>## 
 Read 0.0% of 2985217 rows</code></pre>
@@ -179,24 +177,22 @@ Read 0.0% of 2985217 rows</code></pre>
 ## If reporting to datatable-help, please rerun and include the output from
 ## verbose=TRUE.</code></pre>
 <pre><code>## 
-Read 4.0% of 2985217 rows
-Read 10.4% of 2985217 rows
-Read 16.4% of 2985217 rows
-Read 21.1% of 2985217 rows
-Read 26.8% of 2985217 rows
-Read 32.5% of 2985217 rows
-Read 36.5% of 2985217 rows
-Read 42.9% of 2985217 rows
-Read 49.2% of 2985217 rows
-Read 55.3% of 2985217 rows
-Read 61.6% of 2985217 rows
-Read 67.7% of 2985217 rows
-Read 74.0% of 2985217 rows
-Read 79.4% of 2985217 rows
-Read 85.1% of 2985217 rows
-Read 90.4% of 2985217 rows
-Read 96.5% of 2985217 rows
-Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:24</code></pre>
+Read 5.7% of 2985217 rows
+Read 12.4% of 2985217 rows
+Read 19.1% of 2985217 rows
+Read 25.8% of 2985217 rows
+Read 32.2% of 2985217 rows
+Read 38.5% of 2985217 rows
+Read 44.6% of 2985217 rows
+Read 50.6% of 2985217 rows
+Read 56.9% of 2985217 rows
+Read 63.6% of 2985217 rows
+Read 70.3% of 2985217 rows
+Read 77.0% of 2985217 rows
+Read 83.4% of 2985217 rows
+Read 90.1% of 2985217 rows
+Read 96.8% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:22</code></pre>
 <p>merge the training data with the corresponding labels using the parcelid as the key</p>
 <pre class="r"><code>mergedData = merge(tr_lbl, tr_data, by=&quot;parcelid&quot;)
 attach(mergedData)</code></pre>
