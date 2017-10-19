@@ -16,6 +16,33 @@ library(caret)
 library(data.table)
 ```
 
+load the training target (logerror)
+```{r}
+tr_lbl = read.csv("train_2016_v2.csv")
+tr_lbl = tr_lbl[order(tr_lbl$parcelid),]
+```
+
+load the training data set
+
+```{r}
+tr_data = fread("properties_2016.csv")
+tr_data_2017 = fread("properties_2017.csv")
+```
+merge the training data with the corresponding labels using the parcelid as the key
+```{r}
+mergedData = merge(tr_lbl, tr_data, by="parcelid")
+attach(mergedData)
+```
+
+plot logerror against year built
+```{r echo=TRUE}
+data = data.frame(cbind(yearbuilt, logerror))
+data_agg = aggregate(data, by=list(data$yearbuilt), FUN=mean)
+data_agg = data_agg[,-1]
+plot(data_agg$yearbuilt, data_agg$logerror, type = "l")
+```
+the logerror tends to be higher for homes built before the 1900s
+
 ## Including Plots
 
 You can also embed plots, for example:
