@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Zillow Property Estimate Exploratory Data Analysis and Prediction</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="EDA_and_prediction_zillow.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Zillow Property Estimate Exploratory Data Analysis and Prediction</h1>
+
+</div>
+
+
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<p>load the library needed for some basic data processing</p>
+<pre class="r"><code>library(caret)</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre class="r"><code>library(data.table)</code></pre>
+<p>load the training target (logerror)</p>
+<pre class="r"><code>tr_lbl = read.csv(&quot;D:\\Kaggle\\Zestimate\\train_2016_v2.csv&quot;)
+tr_lbl = tr_lbl[order(tr_lbl$parcelid),]</code></pre>
+<p>load the training data set</p>
+<pre class="r"><code>tr_data = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2016.csv&quot;)</code></pre>
+<pre><code>## 
+Read 0.0% of 2985217 rows</code></pre>
+<pre><code>## Warning in fread(&quot;D:\\Kaggle\\Zestimate\\properties_2016.csv&quot;): Bumped
+## column 50 to type character on data row 10354, field contains &#39;true&#39;.
+## Coercing previously read values in this column from logical, integer
+## or numeric back to character which may not be lossless; e.g., if &#39;00&#39;
+## and &#39;000&#39; occurred before they will now be just &#39;0&#39;, and there may be
+## inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too (if they occurred
+## in this column before the bump). If this matters please rerun and set
+## &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that column type
+## detection uses a sample of 1,000 rows (100 rows at 10 points) so hopefully
+## this message should be very rare. If reporting to datatable-help, please
+## rerun and include the output from verbose=TRUE.</code></pre>
+<pre><code>## 
+Read 6.7% of 2985217 rows
+Read 13.1% of 2985217 rows
+Read 19.8% of 2985217 rows
+Read 25.5% of 2985217 rows
+Read 31.2% of 2985217 rows
+Read 37.5% of 2985217 rows
+Read 44.2% of 2985217 rows
+Read 50.9% of 2985217 rows
+Read 57.3% of 2985217 rows
+Read 63.6% of 2985217 rows
+Read 70.0% of 2985217 rows
+Read 76.4% of 2985217 rows
+Read 82.1% of 2985217 rows
+Read 88.1% of 2985217 rows
+Read 94.8% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:23</code></pre>
+<pre class="r"><code>tr_data_2017 = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;)</code></pre>
+<pre><code>## 
+Read 0.0% of 2985217 rows</code></pre>
+<pre><code>## Warning in fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;): Bumped
+## column 50 to type character on data row 10395, field contains &#39;true&#39;.
+## Coercing previously read values in this column from logical, integer
+## or numeric back to character which may not be lossless; e.g., if &#39;00&#39;
+## and &#39;000&#39; occurred before they will now be just &#39;0&#39;, and there may be
+## inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too (if they occurred
+## in this column before the bump). If this matters please rerun and set
+## &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that column type
+## detection uses a sample of 1,000 rows (100 rows at 10 points) so hopefully
+## this message should be very rare. If reporting to datatable-help, please
+## rerun and include the output from verbose=TRUE.</code></pre>
+<pre><code>## 
+Read 5.0% of 2985217 rows
+Read 11.7% of 2985217 rows
+Read 18.4% of 2985217 rows
+Read 25.1% of 2985217 rows
+Read 31.8% of 2985217 rows
+Read 38.5% of 2985217 rows
+Read 45.2% of 2985217 rows
+Read 51.9% of 2985217 rows
+Read 58.6% of 2985217 rows
+Read 65.3% of 2985217 rows
+Read 72.0% of 2985217 rows
+Read 78.7% of 2985217 rows
+Read 85.4% of 2985217 rows
+Read 92.1% of 2985217 rows
+Read 98.8% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:22</code></pre>
+<p>merge the training data with the corresponding labels using the parcelid as the key</p>
+<pre class="r"><code>mergedData = merge(tr_lbl, tr_data, by=&quot;parcelid&quot;)
+attach(mergedData)</code></pre>
+<p>plot logerror against year built</p>
+<pre class="r"><code>data = data.frame(cbind(yearbuilt, logerror))
+data_agg = aggregate(data, by=list(data$yearbuilt), FUN=mean)
+data_agg = data_agg[,-1]
+plot(data_agg$yearbuilt, data_agg$logerror, type = &quot;l&quot;)</code></pre>
+<p><img src="EDA_and_prediction_zillow_files/figure-html/unnamed-chunk-4-1.png" width="672" /> the logerror tends to be higher for homes built before the 1900s</p>
+</div>
+<div id="including-plots" class="section level2">
+<h2>Including Plots</h2>
+<p>You can also embed plots, for example:</p>
+<pre class="r"><code>plot(pressure)</code></pre>
+<p><img src="EDA_and_prediction_zillow_files/figure-html/pressure-1.png" width="672" /></p>
+<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

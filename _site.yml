@@ -1,0 +1,7 @@
+name: "my-website"
+navbar:
+  title: "My Website"
+  left:
+    - text: "Home"
+      href: EDA_and_prediction_zillow.html
+    

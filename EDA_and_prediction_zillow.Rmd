@@ -18,15 +18,15 @@ library(data.table)
 
 load the training target (logerror)
 ```{r}
-tr_lbl = read.csv("train_2016_v2.csv")
+tr_lbl = read.csv("D:\\Kaggle\\Zestimate\\train_2016_v2.csv")
 tr_lbl = tr_lbl[order(tr_lbl$parcelid),]
 ```
 
 load the training data set
 
 ```{r}
-tr_data = fread("properties_2016.csv")
-tr_data_2017 = fread("properties_2017.csv")
+tr_data = fread("D:\\Kaggle\\Zestimate\\properties_2016.csv")
+tr_data_2017 = fread("D:\\Kaggle\\Zestimate\\properties_2017.csv")
 ```
 merge the training data with the corresponding labels using the parcelid as the key
 ```{r}
