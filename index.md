@@ -1,37 +1,44 @@
-## Welcome to GitHub Pages
+---
+title: "Zillow Property Estimate Exploratory Data Analysis and Prediction"
+output: html_document
+---
 
-You can use the [editor on GitHub](https://github.com/hadi-android/hadi.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## R Markdown
 
-### Jekyll Themes
+load the library needed for some basic data processing
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hadi-android/hadi.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```{r cars}
+library(caret)
+library(data.table)
+```
 
-### Support or Contact
+load the training target (logerror)
+```{r}
+tr_lbl = read.csv("D:\\Kaggle\\Zestimate\\train_2016_v2.csv")
+tr_lbl = tr_lbl[order(tr_lbl$parcelid),]
+```
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+load the training data set
+
+```{r}
+tr_data = fread("D:\\Kaggle\\Zestimate\\properties_2016.csv")
+tr_data_2017 = fread("D:\\Kaggle\\Zestimate\\properties_2017.csv")
+```
+merge the training data with the corresponding labels using the parcelid as the key
+```{r}
+mergedData = merge(tr_lbl, tr_data, by="parcelid")
+attach(mergedData)
+```
+
+plot logerror against year built
+```{r echo=TRUE}
+data = data.frame(cbind(yearbuilt, logerror))
+data_agg = aggregate(data, by=list(data$yearbuilt), FUN=mean)
+data_agg = data_agg[,-1]
+plot(data_agg$yearbuilt, data_agg$logerror, type = "l")
+```
+the logerror tends to be higher for homes built before the 1900s

@@ -2,7 +2,7 @@ name: "my-website"
 output_dir: "."
 navbar:
   title: "My Website"
-  left:
-    - text: "Home"
-      href: EDA_and_prediction_zillow.html
+  #left:
+   # - text: "Home"
+   #   href: EDA_and_prediction_zillow.html
     

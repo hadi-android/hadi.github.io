@@ -175,9 +175,7 @@ $(document).ready(function () {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="EDA_and_prediction_zillow.html">Home</a>
-</li>
+        
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -226,16 +224,17 @@ Read 13.4% of 2985217 rows
 Read 20.1% of 2985217 rows
 Read 26.8% of 2985217 rows
 Read 33.5% of 2985217 rows
-Read 39.5% of 2985217 rows
-Read 46.2% of 2985217 rows
-Read 52.9% of 2985217 rows
+Read 40.2% of 2985217 rows
+Read 46.6% of 2985217 rows
+Read 53.3% of 2985217 rows
 Read 59.6% of 2985217 rows
 Read 66.3% of 2985217 rows
 Read 73.0% of 2985217 rows
-Read 79.7% of 2985217 rows
-Read 86.4% of 2985217 rows
-Read 93.1% of 2985217 rows
-Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:18</code></pre>
+Read 79.4% of 2985217 rows
+Read 86.1% of 2985217 rows
+Read 92.8% of 2985217 rows
+Read 99.5% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:20</code></pre>
 <pre class="r"><code>tr_data_2017 = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;)</code></pre>
 <pre><code>## Warning in fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;): Bumped
 ## column 50 to type character on data row 10395, field contains &#39;true&#39;.
@@ -252,19 +251,21 @@ Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:18</code></
 Read 4.0% of 2985217 rows
 Read 10.7% of 2985217 rows
 Read 17.4% of 2985217 rows
-Read 24.1% of 2985217 rows
-Read 30.8% of 2985217 rows
-Read 37.5% of 2985217 rows
-Read 43.9% of 2985217 rows
-Read 50.6% of 2985217 rows
-Read 57.3% of 2985217 rows
-Read 64.0% of 2985217 rows
-Read 70.7% of 2985217 rows
-Read 77.4% of 2985217 rows
-Read 84.1% of 2985217 rows
-Read 90.4% of 2985217 rows
-Read 97.1% of 2985217 rows
-Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:17</code></pre>
+Read 23.8% of 2985217 rows
+Read 29.8% of 2985217 rows
+Read 36.2% of 2985217 rows
+Read 42.2% of 2985217 rows
+Read 48.6% of 2985217 rows
+Read 54.9% of 2985217 rows
+Read 60.6% of 2985217 rows
+Read 66.0% of 2985217 rows
+Read 71.4% of 2985217 rows
+Read 76.4% of 2985217 rows
+Read 81.4% of 2985217 rows
+Read 86.8% of 2985217 rows
+Read 93.1% of 2985217 rows
+Read 99.8% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:19</code></pre>
 <p>merge the training data with the corresponding labels using the parcelid as the key</p>
 <pre class="r"><code>mergedData = merge(tr_lbl, tr_data, by=&quot;parcelid&quot;)
 attach(mergedData)</code></pre>
