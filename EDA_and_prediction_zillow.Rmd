@@ -42,13 +42,3 @@ data_agg = data_agg[,-1]
 plot(data_agg$yearbuilt, data_agg$logerror, type = "l")
 ```
 the logerror tends to be higher for homes built before the 1900s
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=TRUE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
