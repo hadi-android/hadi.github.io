@@ -193,21 +193,117 @@ $(document).ready(function () {
 </div>
 
 
-<p><code>{r setup, include=FALSE} knitr::opts_chunk$set(echo = TRUE)</code></p>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
 <p>load the library needed for some basic data processing</p>
-<p><code>{r cars} library(caret) library(data.table)</code></p>
+<pre class="r"><code>library(caret)
+library(data.table)</code></pre>
 <p>load the training target (logerror)</p>
-<pre class="{r}"><code>tr_lbl = read.csv(&quot;D:\\Kaggle\\Zestimate\\train_2016_v2.csv&quot;)
+<pre class="r"><code>tr_lbl = read.csv(&quot;D:\\Kaggle\\Zestimate\\train_2016_v2.csv&quot;)
 tr_lbl = tr_lbl[order(tr_lbl$parcelid),]</code></pre>
 <p>load the training data set</p>
-<pre class="{r}"><code>tr_data = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2016.csv&quot;)
-tr_data_2017 = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;)</code></pre>
+<pre class="r"><code>tr_data = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2016.csv&quot;)</code></pre>
+<pre><code>## 
+Read 0.0% of 2985217 rows</code></pre>
+<pre><code>## Warning in fread(&quot;D:\\Kaggle\\Zestimate\\properties_2016.csv&quot;): Bumped
+## column 50 to type character on data row 10354, field contains &#39;true&#39;.
+## Coercing previously read values in this column from logical, integer
+## or numeric back to character which may not be lossless; e.g., if &#39;00&#39;
+## and &#39;000&#39; occurred before they will now be just &#39;0&#39;, and there may be
+## inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too (if they occurred
+## in this column before the bump). If this matters please rerun and set
+## &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that column type
+## detection uses a sample of 1,000 rows (100 rows at 10 points) so hopefully
+## this message should be very rare. If reporting to datatable-help, please
+## rerun and include the output from verbose=TRUE.</code></pre>
+<pre><code>## 
+Read 4.7% of 2985217 rows
+Read 9.7% of 2985217 rows
+Read 14.4% of 2985217 rows
+Read 18.4% of 2985217 rows
+Read 23.1% of 2985217 rows
+Read 28.1% of 2985217 rows
+Read 32.8% of 2985217 rows
+Read 37.9% of 2985217 rows
+Read 42.9% of 2985217 rows
+Read 47.6% of 2985217 rows
+Read 52.3% of 2985217 rows
+Read 56.9% of 2985217 rows
+Read 61.6% of 2985217 rows
+Read 66.3% of 2985217 rows
+Read 71.4% of 2985217 rows
+Read 76.4% of 2985217 rows
+Read 81.1% of 2985217 rows
+Read 85.8% of 2985217 rows
+Read 90.8% of 2985217 rows
+Read 95.5% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:27</code></pre>
+<pre class="r"><code>tr_data_2017 = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;)</code></pre>
+<pre><code>## 
+Read 0.0% of 2985217 rows</code></pre>
+<pre><code>## Warning in fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;): Bumped
+## column 50 to type character on data row 10395, field contains &#39;true&#39;.
+## Coercing previously read values in this column from logical, integer
+## or numeric back to character which may not be lossless; e.g., if &#39;00&#39;
+## and &#39;000&#39; occurred before they will now be just &#39;0&#39;, and there may be
+## inconsistencies with treatment of &#39;,,&#39; and &#39;,NA,&#39; too (if they occurred
+## in this column before the bump). If this matters please rerun and set
+## &#39;colClasses&#39; to &#39;character&#39; for this column. Please note that column type
+## detection uses a sample of 1,000 rows (100 rows at 10 points) so hopefully
+## this message should be very rare. If reporting to datatable-help, please
+## rerun and include the output from verbose=TRUE.</code></pre>
+<pre><code>## 
+Read 5.0% of 2985217 rows
+Read 10.0% of 2985217 rows
+Read 14.7% of 2985217 rows
+Read 19.8% of 2985217 rows
+Read 24.8% of 2985217 rows
+Read 29.8% of 2985217 rows
+Read 34.8% of 2985217 rows
+Read 39.9% of 2985217 rows
+Read 44.9% of 2985217 rows
+Read 49.6% of 2985217 rows
+Read 54.6% of 2985217 rows
+Read 59.3% of 2985217 rows
+Read 64.3% of 2985217 rows
+Read 69.0% of 2985217 rows
+Read 73.7% of 2985217 rows
+Read 78.7% of 2985217 rows
+Read 83.4% of 2985217 rows
+Read 88.1% of 2985217 rows
+Read 93.1% of 2985217 rows
+Read 97.5% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:27</code></pre>
 <p>merge the training data with the corresponding labels using the parcelid as the key</p>
-<pre class="{r}"><code>mergedData = merge(tr_lbl, tr_data, by=&quot;parcelid&quot;)
+<pre class="r"><code>mergedData = merge(tr_lbl, tr_data, by=&quot;parcelid&quot;)
 attach(mergedData)</code></pre>
-<p>plot logerror against year built <code>{r echo=TRUE} data = data.frame(cbind(yearbuilt, logerror)) data_agg = aggregate(data, by=list(data$yearbuilt), FUN=mean) data_agg = data_agg[,-1] plot(data_agg$yearbuilt, data_agg$logerror, type = &quot;l&quot;)</code> the logerror tends to be higher for homes built before the 1900s</p>
+<pre><code>## The following objects are masked from mergedData (pos = 3):
+## 
+##     airconditioningtypeid, architecturalstyletypeid,
+##     assessmentyear, basementsqft, bathroomcnt, bedroomcnt,
+##     buildingclasstypeid, buildingqualitytypeid, calculatedbathnbr,
+##     calculatedfinishedsquarefeet, censustractandblock, decktypeid,
+##     finishedfloor1squarefeet, finishedsquarefeet12,
+##     finishedsquarefeet13, finishedsquarefeet15,
+##     finishedsquarefeet50, finishedsquarefeet6, fips, fireplacecnt,
+##     fireplaceflag, fullbathcnt, garagecarcnt, garagetotalsqft,
+##     hashottuborspa, heatingorsystemtypeid, landtaxvaluedollarcnt,
+##     latitude, logerror, longitude, lotsizesquarefeet,
+##     numberofstories, parcelid, poolcnt, poolsizesum, pooltypeid10,
+##     pooltypeid2, pooltypeid7, propertycountylandusecode,
+##     propertylandusetypeid, propertyzoningdesc,
+##     rawcensustractandblock, regionidcity, regionidcounty,
+##     regionidneighborhood, regionidzip, roomcnt, storytypeid,
+##     structuretaxvaluedollarcnt, taxamount, taxdelinquencyflag,
+##     taxdelinquencyyear, taxvaluedollarcnt, threequarterbathnbr,
+##     transactiondate, typeconstructiontypeid, unitcnt,
+##     yardbuildingsqft17, yardbuildingsqft26, yearbuilt</code></pre>
+<p>plot logerror against year built</p>
+<pre class="r"><code>data = data.frame(cbind(yearbuilt, logerror))
+data_agg = aggregate(data, by=list(data$yearbuilt), FUN=mean)
+data_agg = data_agg[,-1]
+plot(data_agg$yearbuilt, data_agg$logerror, type = &quot;l&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /> the logerror tends to be higher for homes built before the 1900s</p>
 </div>
 
 
