@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 load the library needed for some basic data processing
 
-```{r cars}
+```{r, message=FALSE, warning=FALSE}
 library(caret)
 library(data.table)
 ```
@@ -24,21 +24,54 @@ tr_lbl = tr_lbl[order(tr_lbl$parcelid),]
 
 load the training data set
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 tr_data = fread("D:\\Kaggle\\Zestimate\\properties_2016.csv")
-tr_data_2017 = fread("D:\\Kaggle\\Zestimate\\properties_2017.csv")
 ```
 merge the training data with the corresponding labels using the parcelid as the key
-```{r}
+```{r, message=FALSE, warning=FALSE}
 mergedData = merge(tr_lbl, tr_data, by="parcelid")
 attach(mergedData)
 ```
 
 plot logerror against year built
-```{r}
-data = data.frame(cbind(yearbuilt, logerror))
+```{r, message=FALSE, warning=FALSE}
+data = data.frame(cbind(yearbuilt, abs(logerror)))
 data_agg = aggregate(data, by=list(data$yearbuilt), FUN=mean)
 data_agg = data_agg[,-1]
-plot(data_agg$yearbuilt, data_agg$logerror, type = "l")
+plot(data_agg$yearbuilt, data_agg$V2, type = "l")
 ```
-the logerror tends to be higher for homes built before the 1900s
+the logerror tends to be higher for homes built before the 1900s.
+
+Calculate fraction of missing values per feature
+```{r, message=FALSE, warning=FALSE}
+NAcount_ratio = sapply(tr_data, function(x) sum(is.na(x))/length(x))
+NAcount_ratio = NAcount_ratio[order(NAcount_ratio)]
+barplot(NAcount_ratio, las=2, main="NAs per feature")
+```
+
+how many samples do we have for each month?
+```{r, message=FALSE, warning=FALSE}
+tr_lbl$transactiondate = as.Date(tr_lbl$transactiondate)
+month = format(tr_lbl$transactiondate, "%m")
+hist(as.numeric(month), xlab = "Month")
+```
+
+
+Does absolue log error vary by month?
+```{r, message=FALSE, warning=FALSE}
+err_by_month = data.frame(tr_lbl[,-c(1,3)])
+err_by_month$month = month
+colnames(err_by_month) = c("logerror", "month")
+err_by_month$logerror=abs(err_by_month$logerror)
+
+mean_logE_by_month = aggregate(err_by_month, by=list(err_by_month$month), FUN = mean)
+plot(mean_logE_by_month$Group.1, mean_logE_by_month$logerror, type="l", xlab = "Month", ylab="mean abs logerror")
+```
+
+
+
+
+
+## Zillow Estimate Error Prediction
+For the prediction code please visit this page: https://github.com/hadi-android/Kaggle-Property-Estimate/blob/master/code_xgboost.R
+

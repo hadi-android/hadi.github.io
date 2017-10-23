@@ -11,7 +11,7 @@
 
 
 
-<title>Zillow Property Estimate Exploratory Data Analysis and Prediction</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -188,71 +188,13 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Zillow Property Estimate Exploratory Data Analysis and Prediction</h1>
 
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>load the library needed for some basic data processing</p>
-<pre class="r"><code>library(caret)
-library(data.table)</code></pre>
-<p>load the training target (logerror)</p>
-<pre class="r"><code>tr_lbl = read.csv(&quot;D:\\Kaggle\\Zestimate\\train_2016_v2.csv&quot;)
-tr_lbl = tr_lbl[order(tr_lbl$parcelid),]</code></pre>
-<p>load the training data set</p>
-<pre class="r"><code>tr_data = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2016.csv&quot;)</code></pre>
-<pre><code>## 
-Read 0.0% of 2985217 rows
-Read 6.4% of 2985217 rows
-Read 13.1% of 2985217 rows
-Read 19.1% of 2985217 rows
-Read 25.1% of 2985217 rows
-Read 31.5% of 2985217 rows
-Read 37.5% of 2985217 rows
-Read 43.5% of 2985217 rows
-Read 50.2% of 2985217 rows
-Read 56.6% of 2985217 rows
-Read 63.0% of 2985217 rows
-Read 68.7% of 2985217 rows
-Read 74.4% of 2985217 rows
-Read 80.7% of 2985217 rows
-Read 87.1% of 2985217 rows
-Read 93.5% of 2985217 rows
-Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:20</code></pre>
-<p>merge the training data with the corresponding labels using the parcelid as the key</p>
-<pre class="r"><code>mergedData = merge(tr_lbl, tr_data, by=&quot;parcelid&quot;)
-attach(mergedData)</code></pre>
-<p>plot logerror against year built</p>
-<pre class="r"><code>data = data.frame(cbind(yearbuilt, abs(logerror)))
-data_agg = aggregate(data, by=list(data$yearbuilt), FUN=mean)
-data_agg = data_agg[,-1]
-plot(data_agg$yearbuilt, data_agg$V2, type = &quot;l&quot;)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /> the logerror tends to be higher for homes built before the 1900s.</p>
-<p>Calculate fraction of missing values per feature</p>
-<pre class="r"><code>NAcount_ratio = sapply(tr_data, function(x) sum(is.na(x))/length(x))
-NAcount_ratio = NAcount_ratio[order(NAcount_ratio)]
-barplot(NAcount_ratio, las=2, main=&quot;NAs per feature&quot;)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>how many samples do we have for each month?</p>
-<pre class="r"><code>tr_lbl$transactiondate = as.Date(tr_lbl$transactiondate)
-month = format(tr_lbl$transactiondate, &quot;%m&quot;)
-hist(as.numeric(month), xlab = &quot;Month&quot;)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>Does absolue log error vary by month?</p>
-<pre class="r"><code>err_by_month = data.frame(tr_lbl[,-c(1,3)])
-err_by_month$month = month
-colnames(err_by_month) = c(&quot;logerror&quot;, &quot;month&quot;)
-err_by_month$logerror=abs(err_by_month$logerror)
-
-mean_logE_by_month = aggregate(err_by_month, by=list(err_by_month$month), FUN = mean)
-plot(mean_logE_by_month$Group.1, mean_logE_by_month$logerror, type=&quot;l&quot;, xlab = &quot;Month&quot;, ylab=&quot;mean abs logerror&quot;)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-</div>
-<div id="zillow-estimate-error-prediction" class="section level2">
-<h2>Zillow Estimate Error Prediction</h2>
-<p>For the prediction code please visit this page: <a href="https://github.com/hadi-android/Kaggle-Property-Estimate/blob/master/code_xgboost.R" class="uri">https://github.com/hadi-android/Kaggle-Property-Estimate/blob/master/code_xgboost.R</a></p>
+<div id="hadi.github.io" class="section level1">
+<h1>hadi.github.io</h1>
+<p>Click on the link below for my exploratory data analysis and prediction of Zillow’s Home Price Evaluation (Kaggle competition) <a href="https://hadi-android.github.io/hadi.github.io/" class="uri">https://hadi-android.github.io/hadi.github.io/</a></p>
 </div>
 
 

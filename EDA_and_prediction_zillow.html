@@ -219,29 +219,22 @@ Read 0.0% of 2985217 rows</code></pre>
 ## this message should be very rare. If reporting to datatable-help, please
 ## rerun and include the output from verbose=TRUE.</code></pre>
 <pre><code>## 
-Read 4.7% of 2985217 rows
-Read 10.0% of 2985217 rows
-Read 15.4% of 2985217 rows
-Read 20.4% of 2985217 rows
-Read 26.1% of 2985217 rows
-Read 31.5% of 2985217 rows
-Read 36.8% of 2985217 rows
-Read 42.2% of 2985217 rows
-Read 47.6% of 2985217 rows
-Read 51.3% of 2985217 rows
-Read 56.6% of 2985217 rows
-Read 59.0% of 2985217 rows
-Read 61.6% of 2985217 rows
-Read 65.3% of 2985217 rows
-Read 70.3% of 2985217 rows
-Read 75.0% of 2985217 rows
-Read 79.1% of 2985217 rows
-Read 83.7% of 2985217 rows
-Read 86.4% of 2985217 rows
-Read 89.1% of 2985217 rows
-Read 92.1% of 2985217 rows
-Read 95.8% of 2985217 rows
-Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:33</code></pre>
+Read 6.7% of 2985217 rows
+Read 13.1% of 2985217 rows
+Read 19.1% of 2985217 rows
+Read 25.8% of 2985217 rows
+Read 32.5% of 2985217 rows
+Read 39.2% of 2985217 rows
+Read 45.9% of 2985217 rows
+Read 52.6% of 2985217 rows
+Read 59.3% of 2985217 rows
+Read 66.0% of 2985217 rows
+Read 72.7% of 2985217 rows
+Read 79.4% of 2985217 rows
+Read 86.1% of 2985217 rows
+Read 92.8% of 2985217 rows
+Read 99.5% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.604 GB file in 00:00:18</code></pre>
 <pre class="r"><code>tr_data_2017 = fread(&quot;D:\\Kaggle\\Zestimate\\properties_2017.csv&quot;)</code></pre>
 <pre><code>## 
 Read 0.0% of 2985217 rows</code></pre>
@@ -257,34 +250,22 @@ Read 0.0% of 2985217 rows</code></pre>
 ## this message should be very rare. If reporting to datatable-help, please
 ## rerun and include the output from verbose=TRUE.</code></pre>
 <pre><code>## 
-Read 3.7% of 2985217 rows
-Read 7.7% of 2985217 rows
+Read 5.7% of 2985217 rows
 Read 12.4% of 2985217 rows
-Read 16.4% of 2985217 rows
-Read 20.1% of 2985217 rows
-Read 23.4% of 2985217 rows
-Read 26.5% of 2985217 rows
-Read 27.8% of 2985217 rows
-Read 28.8% of 2985217 rows
-Read 29.5% of 2985217 rows
-Read 30.8% of 2985217 rows
+Read 19.1% of 2985217 rows
+Read 25.8% of 2985217 rows
 Read 32.5% of 2985217 rows
-Read 36.5% of 2985217 rows
-Read 39.9% of 2985217 rows
-Read 42.9% of 2985217 rows
-Read 45.6% of 2985217 rows
-Read 49.2% of 2985217 rows
-Read 53.3% of 2985217 rows
-Read 57.6% of 2985217 rows
-Read 62.3% of 2985217 rows
-Read 66.7% of 2985217 rows
-Read 71.4% of 2985217 rows
-Read 76.0% of 2985217 rows
-Read 80.4% of 2985217 rows
-Read 85.1% of 2985217 rows
-Read 90.1% of 2985217 rows
-Read 95.5% of 2985217 rows
-Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:40</code></pre>
+Read 39.2% of 2985217 rows
+Read 45.9% of 2985217 rows
+Read 52.6% of 2985217 rows
+Read 59.3% of 2985217 rows
+Read 66.0% of 2985217 rows
+Read 72.7% of 2985217 rows
+Read 79.4% of 2985217 rows
+Read 86.1% of 2985217 rows
+Read 92.8% of 2985217 rows
+Read 99.5% of 2985217 rows
+Read 2985217 rows and 58 (of 58) columns from 0.605 GB file in 00:00:21</code></pre>
 <p>merge the training data with the corresponding labels using the parcelid as the key</p>
 <pre class="r"><code>mergedData = merge(tr_lbl, tr_data, by=&quot;parcelid&quot;)
 attach(mergedData)</code></pre>
